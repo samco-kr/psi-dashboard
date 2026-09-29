@@ -141,16 +141,112 @@
   #adminModeBtn.on { background:#e74c3c; color:#fff; border-color:#e74c3c; }
   #adminCopyBtn { padding:6px 12px; border-radius:6px; border:1px solid #4a6cf7; background:#4a6cf7; color:#fff; cursor:pointer; font-weight:600; font-size:12px; }
   #adminResetBtn { padding:6px 12px; border-radius:6px; border:1px solid #ddd; background:#fff; cursor:pointer; font-size:12px; }
+  /* ===== [추가] 시계 · 달력 · 날씨 입고 공지 ===== */
+  .dw-header { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+  .dw-header h1 { margin-top:0; }
+  .dw-clock { position:relative; display:flex; align-items:center; gap:12px; background:var(--card); border-radius:12px; padding:8px 10px 8px 16px; box-shadow:0 1px 4px rgba(0,0,0,0.06); }
+  .dw-clock-text { line-height:1.15; text-align:right; }
+  .dw-clock-date { font-size:12px; color:#888; }
+  .dw-clock-date.dw-sun, .dw-clock-date.dw-holiday { color:var(--shortage); }
+  .dw-clock-date.dw-sat { color:var(--excess); }
+  .dw-clock-time { font-size:22px; font-weight:700; font-variant-numeric:tabular-nums; letter-spacing:0.5px; }
+  .dw-cal-btn { border:1px solid #dfe3f3; background:#f0f2fa; border-radius:8px; width:38px; height:38px; font-size:18px; cursor:pointer; }
+  .dw-cal-btn[aria-expanded="true"] { background:var(--accent); border-color:var(--accent); }
+  .dw-cal-btn:focus-visible, .dw-cal-nav button:focus-visible, .dw-notice-toggle:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+  .dw-cal { display:none; position:absolute; right:0; top:calc(100% + 8px); z-index:50; width:300px; background:var(--card); border-radius:12px; padding:14px; box-shadow:0 8px 24px rgba(0,0,0,0.16); }
+  .dw-cal.open { display:block; }
+  .dw-cal-nav { display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
+  .dw-cal-nav strong { font-size:15px; }
+  .dw-cal-nav button { border:none; background:#f0f2fa; border-radius:6px; padding:4px 10px; cursor:pointer; font-size:13px; color:#555; }
+  .dw-cal-grid { display:grid; grid-template-columns:repeat(7, 1fr); gap:2px; text-align:center; }
+  .dw-cal-grid .dw-dow { font-size:11px; color:#999; padding:4px 0; }
+  .dw-cal-grid .dw-day { font-size:13px; padding:7px 0; border-radius:6px; font-variant-numeric:tabular-nums; }
+  .dw-cal-grid .dw-day.dw-other { opacity:0.3; }
+  .dw-cal-grid .dw-sat { color:var(--excess); }
+  .dw-cal-grid .dw-sun, .dw-cal-grid .dw-holiday { color:var(--shortage); }
+  .dw-cal-grid .dw-holiday { background:#fdecea; font-weight:600; }
+  .dw-cal-grid .dw-today { background:var(--accent); color:#fff !important; font-weight:700; }
+  .dw-cal-holidays { margin-top:10px; padding-top:8px; border-top:1px solid #eee; font-size:12px; color:#666; line-height:1.6; }
+  .dw-cal-holidays b { color:var(--shortage); font-weight:600; }
+
+  .dw-notice { background:var(--card); border-radius:12px; box-shadow:0 1px 4px rgba(0,0,0,0.06); border-left:5px solid var(--ok); margin-bottom:16px; overflow:hidden; }
+  .dw-notice.lv-warn { border-left-color:var(--warn); }
+  .dw-notice.lv-danger { border-left-color:var(--shortage); }
+  .dw-notice-head { display:flex; align-items:center; gap:12px; padding:12px 16px; flex-wrap:wrap; }
+  .dw-notice-title { font-size:15px; font-weight:700; }
+  .dw-notice-now { font-size:13px; color:#555; }
+  .dw-notice-toggle { margin-left:auto; border:none; background:#f0f2fa; border-radius:6px; padding:5px 10px; font-size:12px; color:#555; cursor:pointer; }
+  .dw-notice-body { padding:0 16px 14px; }
+  .dw-notice.collapsed .dw-notice-body { display:none; }
+  .dw-days { display:flex; gap:8px; margin-bottom:12px; flex-wrap:wrap; }
+  .dw-daychip { background:#f7f8fb; border-radius:8px; padding:6px 12px; font-size:12px; color:#555; }
+  .dw-daychip b { color:var(--ink); }
+  .dw-daychip .dw-rain { color:var(--excess); font-weight:600; }
+  .dw-list { list-style:none; margin:0; padding:0; display:grid; gap:8px; }
+  .dw-item { display:flex; gap:10px; align-items:flex-start; padding:10px 12px; border-radius:8px; background:#f7f8fb; font-size:13px; line-height:1.55; }
+  .dw-item .dw-ico { font-size:18px; line-height:1.2; }
+  .dw-item strong { display:block; font-size:13px; margin-bottom:2px; }
+  .dw-item.lv-danger { background:#fdecea; }
+  .dw-item.lv-danger strong { color:var(--shortage); }
+  .dw-item.lv-warn { background:#fff6e6; }
+  .dw-item.lv-warn strong { color:#a8650f; }
+  .dw-item.lv-manual { background:#eef1fe; }
+  .dw-item.lv-manual strong { color:var(--accent); }
+  .dw-foot { margin-top:10px; font-size:11px; color:#999; }
+
+  @media (max-width: 720px) {
+    .dw-header { flex-direction:column; gap:8px; }
+    .dw-clock { width:100%; justify-content:space-between; }
+    .dw-clock-text { text-align:left; }
+    .dw-clock-time { font-size:19px; }
+    .dw-cal { left:0; right:0; width:auto; }
+    .dw-notice-head { padding:10px 12px; }
+    .dw-notice-body { padding:0 12px 12px; }
+  }
+  /* ===== [추가 끝] ===== */
 </style>
 </head>
 <body>
-  <h1>PSI 통합 대시보드</h1>
+  <!-- [추가] 제목 + 시계/달력 -->
+  <div class="dw-header">
+    <h1>PSI 통합 대시보드</h1>
+    <div class="dw-clock">
+      <div class="dw-clock-text">
+        <div class="dw-clock-date" id="dwDate">&nbsp;</div>
+        <div class="dw-clock-time" id="dwTime">--:--:--</div>
+      </div>
+      <button type="button" class="dw-cal-btn" id="dwCalBtn" aria-expanded="false" aria-controls="dwCal" title="달력 보기">📅</button>
+      <div class="dw-cal" id="dwCal" role="dialog" aria-label="달력">
+        <div class="dw-cal-nav">
+          <button type="button" id="dwPrev" aria-label="이전 달">‹</button>
+          <strong id="dwMonth"></strong>
+          <button type="button" id="dwNext" aria-label="다음 달">›</button>
+        </div>
+        <div class="dw-cal-grid" id="dwGrid"></div>
+        <div class="dw-cal-holidays" id="dwHol"></div>
+        <div style="text-align:center; margin-top:8px;"><button type="button" id="dwTodayBtn" style="border:none; background:none; color:var(--accent); font-size:12px; font-weight:600; cursor:pointer;">오늘로 이동</button></div>
+      </div>
+    </div>
+  </div>
   <div class="meta" style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
     <span id="metaText">데이터 생성 시각: 2026-09-29T16:01:00.948723 · 완전히 오프라인에서도 열립니다 (차트 라이브러리 포함).</span>
     <button id="refreshBtn" type="button" style="display:none; padding:5px 12px; border-radius:6px; border:1px solid #4a6cf7; background:#fff; color:#4a6cf7; cursor:pointer; font-size:12px; font-weight:600;">🔄 지금 업데이트</button>
     <span id="refreshMsg" style="font-size:12px; color:#888;"></span>
   </div>
 
+  <!-- [추가] 날씨 기반 입고 유의사항 공지 -->
+  <section class="dw-notice" id="dwNotice" aria-live="polite">
+    <div class="dw-notice-head">
+      <span class="dw-notice-title" id="dwNoticeTitle">📢 오늘의 입고 유의사항</span>
+      <span class="dw-notice-now" id="dwNoticeNow">날씨 정보를 불러오는 중…</span>
+      <button type="button" class="dw-notice-toggle" id="dwNoticeToggle" aria-expanded="true">접기</button>
+    </div>
+    <div class="dw-notice-body">
+      <div class="dw-days" id="dwDays"></div>
+      <ul class="dw-list" id="dwList"></ul>
+      <div class="dw-foot" id="dwFoot"></div>
+    </div>
+  </section>
   <div class="toolbar" style="margin-bottom:8px;">
     <input id="globalSupplierSearch" placeholder="🔍 협력사 이름으로 전체 탭 검색 (예: 동은테크)" style="flex:1; min-width:280px; font-size:15px; padding:10px 14px;">
   </div>
@@ -1667,6 +1763,235 @@ function renderAsmPanel(panel, data, categoryKey) {
   render();
 }
 
+</script>
+<script>
+/* ===== [추가] 시계 · 달력 · 날씨 입고 공지 =====
+   다른 코드와 이름이 겹치지 않도록 전부 이 함수 안에 넣었습니다(dw = dashboard widget). */
+(function () {
+  // ── 설정 ────────────────────────────────────────────────
+  // 날씨를 볼 위치 (공장/창고 위치로 바꿔주세요. 위도·경도는 지도 앱에서 확인 가능)
+  const DW_LOCATION = { name: '창원', lat: 35.2281, lon: 128.6811 };
+  // 날씨와 상관없이 직접 띄우고 싶은 공지. until 날짜가 지나면 자동으로 사라집니다.
+  // 예: { title: '10/2 하역장 공사', text: '정문 하역장 대신 후문을 이용해주세요.', until: '2026-10-02' }
+  const DW_MANUAL_NOTICES = [];
+  const DW_REFRESH_MIN = 30;            // 날씨 새로고침 간격(분)
+  const DW_TZ = 'Asia/Seoul';           // 어디서 열어도 한국 시간으로 표시
+  // ────────────────────────────────────────────────────────
+
+  const DOW = ['일', '월', '화', '수', '목', '금', '토'];
+  const HOL = (typeof HOLIDAYS_KR !== 'undefined' && HOLIDAYS_KR) ? HOLIDAYS_KR : {};
+  const $ = id => document.getElementById(id);
+  const pad = n => String(n).padStart(2, '0');
+  const ymd = (y, m, d) => `${y}-${pad(m)}-${pad(d)}`;
+
+  function nowKST() {
+    const p = {};
+    new Intl.DateTimeFormat('en-US', { timeZone: DW_TZ, year: 'numeric', month: 'numeric', day: 'numeric',
+      hour: 'numeric', minute: 'numeric', second: 'numeric', hourCycle: 'h23' })
+      .formatToParts(new Date()).forEach(x => { p[x.type] = x.value; });
+    const y = +p.year, m = +p.month, d = +p.day;
+    return { y, m, d, hh: +p.hour, mm: +p.minute, ss: +p.second, dow: new Date(Date.UTC(y, m - 1, d)).getUTCDay(), key: ymd(y, m, d) };
+  }
+  function kindOf(key, dow) {
+    if (HOL[key]) return 'dw-holiday';
+    if (dow === 0) return 'dw-sun';
+    if (dow === 6) return 'dw-sat';
+    return '';
+  }
+
+  // ── 시계 ──
+  let lastDayKey = null;
+  function tickClock() {
+    const n = nowKST();
+    $('dwTime').textContent = `${pad(n.hh)}:${pad(n.mm)}:${pad(n.ss)}`;
+    const dateEl = $('dwDate');
+    dateEl.textContent = `${n.y}년 ${n.m}월 ${n.d}일 (${DOW[n.dow]})` + (HOL[n.key] ? ` · ${HOL[n.key]}` : '');
+    dateEl.className = 'dw-clock-date ' + kindOf(n.key, n.dow);
+    if (lastDayKey && lastDayKey !== n.key) { renderCalendar(); refreshNotice(); } // 자정이 지나면 갱신
+    lastDayKey = n.key;
+  }
+
+  // ── 달력 ──
+  let viewY, viewM;
+  function renderCalendar() {
+    const n = nowKST();
+    if (viewY == null) { viewY = n.y; viewM = n.m; }
+    $('dwMonth').textContent = `${viewY}년 ${viewM}월`;
+    const first = new Date(Date.UTC(viewY, viewM - 1, 1));
+    const startDow = first.getUTCDay();
+    let html = DOW.map((w, i) => `<div class="dw-dow ${i === 0 ? 'dw-sun' : i === 6 ? 'dw-sat' : ''}">${w}</div>`).join('');
+    for (let i = 0; i < 42; i++) {
+      const dt = new Date(Date.UTC(viewY, viewM - 1, 1 - startDow + i));
+      const y = dt.getUTCFullYear(), m = dt.getUTCMonth() + 1, d = dt.getUTCDate(), dow = dt.getUTCDay();
+      const key = ymd(y, m, d);
+      if (i >= 35 && m !== viewM) break; // 5줄이면 충분한 달은 6번째 줄 생략
+      const cls = ['dw-day', kindOf(key, dow), m !== viewM ? 'dw-other' : '', key === n.key ? 'dw-today' : ''].join(' ');
+      const title = HOL[key] ? `${key} ${HOL[key]}` : key;
+      html += `<div class="${cls}" title="${title}">${d}</div>`;
+    }
+    $('dwGrid').innerHTML = html;
+    const prefix = `${viewY}-${pad(viewM)}-`;
+    const hols = Object.keys(HOL).filter(k => k.startsWith(prefix)).sort();
+    $('dwHol').innerHTML = hols.length
+      ? hols.map(k => `<b>${+k.slice(8)}일</b> ${HOL[k]}`).join('<br>')
+      : '이번 달 공휴일 없음';
+  }
+  function moveMonth(delta) {
+    viewM += delta;
+    if (viewM < 1) { viewM = 12; viewY--; }
+    if (viewM > 12) { viewM = 1; viewY++; }
+    renderCalendar();
+  }
+  function setCalOpen(open) {
+    $('dwCal').classList.toggle('open', open);
+    $('dwCalBtn').setAttribute('aria-expanded', String(open));
+  }
+
+  // ── 날씨 → 입고 유의사항 ──
+  function codeInfo(c) {
+    if (c === 0) return ['☀️', '맑음'];
+    if (c <= 2) return ['🌤️', '구름 조금'];
+    if (c === 3) return ['☁️', '흐림'];
+    if (c === 45 || c === 48) return ['🌫️', '안개'];
+    if (c >= 51 && c <= 57) return ['🌦️', '이슬비'];
+    if (c >= 61 && c <= 67) return ['🌧️', '비'];
+    if (c >= 71 && c <= 77) return ['🌨️', '눈'];
+    if (c >= 80 && c <= 82) return ['🌧️', '소나기'];
+    if (c === 85 || c === 86) return ['🌨️', '눈 소나기'];
+    if (c >= 95) return ['⛈️', '뇌우'];
+    return ['🌡️', '-'];
+  }
+  const isSnow = c => (c >= 71 && c <= 77) || c === 85 || c === 86;
+  const isRain = c => (c >= 51 && c <= 67) || (c >= 80 && c <= 82) || c >= 95;
+
+  function buildRules(w) {
+    const out = [];
+    const add = (lv, ico, title, text) => out.push({ lv, ico, title, text });
+    const t = w.daily, cur = w.current;
+    const code = t.weather_code[0], pop = t.precipitation_probability_max[0] ?? 0;
+    const rain = t.precipitation_sum[0] ?? 0, tmax = t.temperature_2m_max[0], tmin = t.temperature_2m_min[0];
+    const gust = t.wind_gusts_10m_max[0] ?? 0, hum = cur.relative_humidity_2m ?? 0;
+    const snowToday = isSnow(code), rainToday = !snowToday && (isRain(code) || pop >= 60 || rain >= 1);
+
+    if (code >= 95) add('danger', '⚡', '낙뢰 예보 — 야외 하역 중지',
+      '천둥·번개가 치는 동안에는 야외 하차와 지게차 작업을 멈추고 실내에서 대기합니다.');
+    if (rainToday) add(rain >= 10 ? 'danger' : 'warn', '☔', `우천 입고 주의 (강수확률 ${pop}%${rain ? `, ${rain}mm` : ''})`,
+      '파렛트는 비닐 래핑·방수 커버 상태로 입고해주세요. 하차는 지붕(캐노피) 아래에서 하고, 젖은 박스는 수입검사 전 따로 보관해 담당자 확인을 받습니다. PCB·전장 부품은 방습 포장을 현장에서 뜯지 않습니다.');
+    if (snowToday) add('danger', '❄️', '눈 예보 — 입고 지연·미끄럼 주의',
+      '도로 결빙으로 도착이 늦어질 것 같으면 미리 연락해주세요. 하역장 바닥이 미끄러우니 지게차는 서행하고, 박스에 쌓인 눈은 털고 반입합니다.');
+    else if (tmin <= 0) add('warn', '🧊', `새벽 결빙 주의 (최저 ${tmin}℃)`,
+      '이른 시간 입고 차량은 하역장 진입 시 서행해주세요. 바닥 결빙 여부를 먼저 확인합니다.');
+    if (tmin <= -10) add('warn', '🥶', '한파 — 플라스틱 부품 파손·결로 주의',
+      '수지(플라스틱) 부품은 추위에 깨지기 쉬우니 던지거나 떨어뜨리지 않습니다. 실내로 옮긴 뒤 결로가 생기지 않도록 1~2시간 지나서 포장을 엽니다.');
+    if (tmax >= 33) add(tmax >= 35 ? 'danger' : 'warn', '🔥', `폭염 (최고 ${tmax}℃) — 자재 변형 주의`,
+      '수지·고무·접착제·테이프류는 열에 변형될 수 있으니 차량 적재함에 오래 두지 말고 도착 즉시 실내로 입고합니다. 하역 작업자는 휴식과 물을 충분히 챙겨주세요.');
+    if (gust >= 14) add(gust >= 20 ? 'danger' : 'warn', '💨', `강풍 (순간 ${Math.round(gust)}m/s) — 적재물 결속 확인`,
+      '적재물 결속 상태를 확인하고, 빈 파렛트·스트레치 필름·박스 등이 날리지 않도록 정리합니다. 긴 자재는 바람을 등지고 하차합니다.');
+    if (!rainToday && !snowToday && hum >= 85) add('warn', '💧', `습도 높음 (${hum}%)`,
+      'PCB·센서 등 습기에 약한 부품과 종이 포장 자재는 방습 포장이 뜯기지 않았는지 확인하고 받습니다.');
+
+    const c1 = t.weather_code[1], pop1 = t.precipitation_probability_max[1] ?? 0;
+    if (!rainToday && !snowToday && c1 != null && (isSnow(c1) || isRain(c1) || pop1 >= 60))
+      add('info', '📦', `내일 ${isSnow(c1) ? '눈' : '비'} 예보 (강수확률 ${pop1}%)`,
+        `내일 입고 예정 협력사에는 ${isSnow(c1) ? '도착 지연 가능성과 ' : ''}방수 포장을 미리 요청해두세요.`);
+    return out;
+  }
+
+  function dayLabel(i, key) {
+    const [y, m, d] = key.split('-').map(Number);
+    const dow = DOW[new Date(Date.UTC(y, m - 1, d)).getUTCDay()];
+    return (['오늘', '내일', '모레'][i] || key) + ` ${m}/${d}(${dow})`;
+  }
+
+  function render(w, err) {
+    const n = nowKST();
+    const items = [];
+    // 휴일이면 먼저 안내
+    if (HOL[n.key] || n.dow === 0)
+      items.push({ lv: 'info', ico: '🗓️', title: `오늘은 휴일입니다${HOL[n.key] ? ` (${HOL[n.key]})` : ''}`, text: '입고 가능 여부는 담당자에게 먼저 확인해주세요.' });
+    // 직접 입력한 공지
+    DW_MANUAL_NOTICES.filter(x => !x.until || x.until >= n.key)
+      .forEach(x => items.push({ lv: 'manual', ico: '📌', title: x.title, text: x.text || '' }));
+
+    if (w) {
+      const [ico, label] = codeInfo(w.current.weather_code);
+      $('dwNoticeNow').textContent = `${DW_LOCATION.name} 현재 ${ico} ${label} ${Math.round(w.current.temperature_2m)}℃ · 습도 ${w.current.relative_humidity_2m}%`;
+      $('dwDays').innerHTML = w.daily.time.map((key, i) => {
+        const [di, dl] = codeInfo(w.daily.weather_code[i]);
+        const p = w.daily.precipitation_probability_max[i];
+        return `<div class="dw-daychip">${dayLabel(i, key)} ${di} ${dl} <b>${Math.round(w.daily.temperature_2m_min[i])}~${Math.round(w.daily.temperature_2m_max[i])}℃</b>${p >= 30 ? ` <span class="dw-rain">☔${p}%</span>` : ''}</div>`;
+      }).join('');
+      items.push(...buildRules(w));
+      $('dwFoot').textContent = `날씨 기준: ${pad(n.hh)}:${pad(n.mm)} 업데이트 · 출처 Open-Meteo · ${DW_REFRESH_MIN}분마다 자동 갱신`;
+    } else {
+      $('dwNoticeNow').textContent = err ? '날씨 정보를 불러오지 못했어요' : '날씨 정보를 불러오는 중…';
+      $('dwDays').innerHTML = '';
+      if (err) $('dwFoot').textContent = '인터넷에 연결되어 있지 않거나 날씨 서버에 접속할 수 없습니다. 연결되면 자동으로 다시 시도합니다.';
+    }
+    const weatherIssues = items.some(x => x.lv === 'warn' || x.lv === 'danger');
+    if (w && !weatherIssues)
+      items.push({ lv: 'ok', ico: '✅', title: '날씨로 인한 특이사항 없음', text: '기본 입고 수칙대로 수량·라벨·포장 상태를 확인하고 받아주세요.' });
+    if (!w && err && !items.length)
+      items.push({ lv: 'ok', ico: '📋', title: '기본 입고 수칙', text: '수량·라벨·포장 상태를 확인하고 받아주세요. 비·눈이 오면 방수 포장 상태를 꼭 확인합니다.' });
+
+    const order = { danger: 0, warn: 1, manual: 2, info: 3, ok: 4 };
+    items.sort((a, b) => order[a.lv] - order[b.lv]);
+    $('dwList').innerHTML = items.map(x =>
+      `<li class="dw-item lv-${x.lv}"><span class="dw-ico" aria-hidden="true">${x.ico}</span><div><strong>${x.title}</strong>${x.text}</div></li>`).join('');
+
+    const top = items.some(x => x.lv === 'danger') ? 'danger' : items.some(x => x.lv === 'warn') ? 'warn' : 'ok';
+    $('dwNotice').className = 'dw-notice lv-' + top + ($('dwNotice').classList.contains('collapsed') ? ' collapsed' : '');
+    const cnt = items.filter(x => x.lv === 'danger' || x.lv === 'warn').length;
+    $('dwNoticeTitle').textContent = '📢 오늘의 입고 유의사항' + (cnt ? ` (${cnt}건)` : '');
+  }
+
+  async function refreshNotice() {
+    const url = 'https://api.open-meteo.com/v1/forecast'
+      + `?latitude=${DW_LOCATION.lat}&longitude=${DW_LOCATION.lon}`
+      + '&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m'
+      + '&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,precipitation_sum,wind_gusts_10m_max'
+      + '&timezone=Asia%2FSeoul&forecast_days=3&wind_speed_unit=ms';
+    try {
+      const res = await fetch(url);
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const w = await res.json();
+      if (!w.current || !w.daily) throw new Error('bad data');
+      render(w);
+    } catch (e) {
+      console.warn('[날씨 공지] 불러오기 실패:', e);
+      render(null, true);
+    }
+  }
+
+  // ── 시작 ──
+  tickClock(); setInterval(tickClock, 1000);
+  renderCalendar();
+  $('dwCalBtn').addEventListener('click', e => { e.stopPropagation(); setCalOpen(!$('dwCal').classList.contains('open')); });
+  $('dwCal').addEventListener('click', e => e.stopPropagation());
+  document.addEventListener('click', () => setCalOpen(false));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') setCalOpen(false); });
+  $('dwPrev').addEventListener('click', () => moveMonth(-1));
+  $('dwNext').addEventListener('click', () => moveMonth(1));
+  $('dwTodayBtn').addEventListener('click', () => { const n = nowKST(); viewY = n.y; viewM = n.m; renderCalendar(); });
+
+  const box = $('dwNotice'), tgl = $('dwNoticeToggle');
+  function setCollapsed(c) {
+    box.classList.toggle('collapsed', c);
+    tgl.textContent = c ? '펼치기' : '접기';
+    tgl.setAttribute('aria-expanded', String(!c));
+  }
+  try { if (localStorage.getItem('dwNoticeCollapsed') === '1') setCollapsed(true); } catch (e) {}
+  tgl.addEventListener('click', () => {
+    const c = !box.classList.contains('collapsed');
+    setCollapsed(c);
+    try { localStorage.setItem('dwNoticeCollapsed', c ? '1' : '0'); } catch (e) {}
+  });
+
+  render(null, false);
+  refreshNotice();
+  setInterval(refreshNotice, DW_REFRESH_MIN * 60 * 1000);
+})();
+/* ===== [추가 끝] ===== */
 </script>
 </body>
 </html>
